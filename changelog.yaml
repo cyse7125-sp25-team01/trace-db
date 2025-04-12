@@ -1,10 +1,18 @@
 databaseChangeLog:
   - changeSet:
+      id: 000-create-trace-schema
+      author: postgres
+      changes:
+        - createSchema:
+            schemaName: trace
+
+  - changeSet:
       id: 001-create-documents
-      author: logesh
+      author: postgres
       changes:
         - createTable:
             tableName: documents
+            schemaName: trace
             columns:
               - column:
                   name: id
@@ -33,10 +41,11 @@ databaseChangeLog:
 
   - changeSet:
       id: 002-create-course-info
-      author: logesh
+      author: postgres
       changes:
         - createTable:
             tableName: course_info
+            schemaName: trace
             columns:
               - column:
                   name: id
@@ -78,17 +87,20 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseTableName: course_info
+            baseTableSchemaName: trace
             baseColumnNames: document_id
             referencedTableName: documents
+            referencedTableSchemaName: trace
             referencedColumnNames: id
             constraintName: fk_course_info_document
 
   - changeSet:
       id: 003-create-course-ratings
-      author: logesh
+      author: postgres
       changes:
         - createTable:
             tableName: course_ratings
+            schemaName: trace
             columns:
               - column:
                   name: id
@@ -115,17 +127,20 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseTableName: course_ratings
+            baseTableSchemaName: trace
             baseColumnNames: document_id
             referencedTableName: documents
+            referencedTableSchemaName: trace
             referencedColumnNames: id
             constraintName: fk_course_ratings_document
 
   - changeSet:
       id: 004-create-student-comments
-      author: logesh
+      author: postgres
       changes:
         - createTable:
             tableName: student_comments
+            schemaName: trace
             columns:
               - column:
                   name: id
@@ -152,24 +167,28 @@ databaseChangeLog:
 
         - addForeignKeyConstraint:
             baseTableName: student_comments
+            baseTableSchemaName: trace
             baseColumnNames: document_id
             referencedTableName: documents
+            referencedTableSchemaName: trace
             referencedColumnNames: id
             constraintName: fk_student_comments_document
 
   - changeSet:
       id: 005-create-indexes
-      author: logesh
+      author: postgres
       changes:
         - createIndex:
             indexName: idx_documents_name
             tableName: documents
+            schemaName: trace
             columns:
               - column:
                   name: document_name
         - createIndex:
             indexName: idx_course_info_instructor
             tableName: course_info
+            schemaName: trace
             columns:
               - column:
                   name: instructor_name
